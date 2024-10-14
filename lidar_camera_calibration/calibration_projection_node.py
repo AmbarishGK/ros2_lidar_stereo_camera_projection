@@ -35,6 +35,13 @@ class CalibrationProjectionNode(Node):
             '/fused_image',
             10
         )
+
+        self.publisher_camera_info = self.create_publisher(
+            CameraInfo,
+            '/camera_info',
+            10
+        )
+
         self.bridge = CvBridge()
         self.lidar_points = None
         self.camera_image = None
@@ -67,7 +74,6 @@ class CalibrationProjectionNode(Node):
         projected_image = self.camera_image.copy()
         for point in lidar_points:
             # Project LiDAR point onto camera image
-            # Use PinholeCameraModel for projection
             img_point = self.pinhole_camera_model.project3dToPixel(point)
             if self.pinhole_camera_model.rectifyPoint(point).any():
                 projected_x = int(img_point[0])
@@ -79,7 +85,13 @@ class CalibrationProjectionNode(Node):
 
         # Publish the modified camera image with LiDAR points overlaid
         projected_image_msg = self.bridge.cv2_to_imgmsg(projected_image, encoding='bgr8')
+
+        # Set the header frame id from the camera info or image message
+        projected_image_msg.header.frame_id = self.camera_info.header.frame_id
+        projected_image_msg.header.stamp = self.camera_info.header.stamp
+
         self.publisher_projected_image.publish(projected_image_msg)
+        self.publisher_camera_info.publish(self.camera_info)
 
 def main(args=None):
     rclpy.init(args=args)
