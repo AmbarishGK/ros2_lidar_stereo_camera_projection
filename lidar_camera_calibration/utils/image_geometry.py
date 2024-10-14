@@ -5,6 +5,9 @@ import numpy
 
 def mkmat(rows, cols, L):
     mat = numpy.matrix(L, dtype='float64')
+    # print("Ankit come on")
+    # print(mat)
+    mat = mat.copy()
     mat.resize((rows,cols))
     return mat
 

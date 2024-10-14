@@ -17,8 +17,8 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='kamlesh',
-    maintainer_email='kkamlesh.p47@gmail.com',
+    maintainer='Ankit',
+    maintainer_email='apal0569@gmail.com',
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],
@@ -26,6 +26,7 @@ setup(
         'console_scripts': [
             'calibration_node = lidar_camera_calibration.calibration:main',
             'calibration_projection_node = lidar_camera_calibration.calibration_projection_node:main',
+            'object_detection = lidar_camera_calibration.object_detection:main'
         ],
     },
 )

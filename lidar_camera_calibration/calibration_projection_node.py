@@ -6,8 +6,8 @@ from sensor_msgs.msg import PointCloud2, Image, CameraInfo
 from cv_bridge import CvBridge
 import numpy as np
 import cv2
-from .utils.image_geometry import PinholeCameraModel
-from .utils.ros2_numpy import point_cloud2_to_xyz_array
+from lidar_camera_calibration.utils.ros2_numpy import pointcloud2_to_xyz_array
+from lidar_camera_calibration.utils.image_geometry import PinholeCameraModel
 
 class CalibrationProjectionNode(Node):
     def __init__(self):
@@ -44,7 +44,7 @@ class CalibrationProjectionNode(Node):
     def lidar_callback(self, msg):
         # Process LiDAR data
         # For simplicity, we're just storing the point cloud in numpy array
-        self.lidar_points = point_cloud2_to_xyz_array(msg)
+        self.lidar_points = pointcloud2_to_xyz_array(msg)
 
     def image_callback(self, msg):
         # Process camera image
@@ -69,7 +69,7 @@ class CalibrationProjectionNode(Node):
             # Project LiDAR point onto camera image
             # Use PinholeCameraModel for projection
             img_point = self.pinhole_camera_model.project3dToPixel(point)
-            if self.pinhole_camera_model.rectifyPoint(point):
+            if self.pinhole_camera_model.rectifyPoint(point).any():
                 projected_x = int(img_point[0])
                 projected_y = int(img_point[1])
                 # Check if pixel coordinates are within image boundaries

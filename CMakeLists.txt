@@ -18,6 +18,7 @@ ament_python_install_package(${PROJECT_NAME})
 install(PROGRAMS
 lidar_camera_calibration/calibration.py
 lidar_camera_calibration/calibration_projection_node.py
+lidar_camera_calibration/object_detection.py
   DESTINATION lib/${PROJECT_NAME}  # This ensures that the executables are placed in the right directory
 )
 
