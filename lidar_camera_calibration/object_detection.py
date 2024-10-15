@@ -28,6 +28,7 @@ class ObjectDetection(Node):
         self.camera_image = None
         self.camera_info  = None
         self.pinhole_camera_model = PinholeCameraModel()
+        self.model = YOLO("yolo11n.pt")
 
     def image_callback(self, msg):
         # Process camera image
@@ -42,8 +43,7 @@ class ObjectDetection(Node):
     def objectDetection(self):
         if self.camera_image is None or self.camera_info is None:
             return
-        model = YOLO("yolo11n.pt")
-        results = model(np.array(self.camera_image))  # return a list of Results objects
+        results = self.model(np.array(self.camera_image))  # return a list of Results objects
 
         # Process results list
         for result in results:
