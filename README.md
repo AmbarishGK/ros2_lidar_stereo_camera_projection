@@ -78,6 +78,22 @@ ros2 run rqt_image_view rqt_image_view
 ```
 And select the `/fused_image` topic.
 
+## 📊 Viewing in RViz2
+
+To view the projected LiDAR points in RViz2 as an image:
+
+1. Launch RViz2:
+```bash
+rviz2
+```
+2. Add the **Image** display type:
+   - Click **Add** -> choose **Image**.
+   - Set the **Image Topic** to `/fused_image`.
+   - Ensure the **Image Encoding** is `rgb8` or `bgr8` depending on your camera.
+3. (Optional) Add a **PointCloud2** display to visualize raw LiDAR data for comparison:
+   - Topic: `/velodyne_points`
+   - Style: `Points`, adjust size as needed.
+
 ## 🧹 Troubleshooting
 
 - **No points drawn?**
